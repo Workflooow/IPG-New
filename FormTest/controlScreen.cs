@@ -21,13 +21,9 @@ namespace FormTest
         FolderBrowserDialog folderDialog = new FolderBrowserDialog();
         imageDatabase seeker;
         public readonly Screen cScreen = Screen.AllScreens[0];
-        (int x, int y)[] positionListCategories = new (int, int)[] { (25, 20), (25, 330), (25, 640), (25, 950) };
-        //int[] positionListSeasons = new int[] { 112, 422, 732, 1042}; //evenned out
-        int[] positionListSeasons = new int[] { 180, 380, 580, 780, 980}; 
+        (int x, int y)[] positionListCategories = new (int, int)[] { (25, 20), (25, 485), (25, 950) };
         List<Image> categoryImages = new List<Image>();
-        List<Image> seasonImages = new List<Image>();
         List<controlScreenButton> categoryButtons = new List<controlScreenButton>();
-        List<controlScreenButton> seasonButtons = new List<controlScreenButton>();
         controlScreenButton currentSeason = new controlScreenButton(); 
         controlScreenButton currentCategory = new controlScreenButton();
         Pen pen = new Pen(Color.Gray);
@@ -37,7 +33,6 @@ namespace FormTest
 
         public controlScreen()
         {
-            //this.BackColor = Color.FromArgb(45,45,48);
             this.BackColor = Color.FromArgb(50,53,59);
             Load += new EventHandler(Form1_Load);
             FormBorderStyle = FormBorderStyle.None;
@@ -55,11 +50,6 @@ namespace FormTest
             for (int i = 0; i < 8; i++)
             {
                 allImages.Add(rs.GetObject("k" + i) as Image);
-            }
-
-            for (int i = 0; i < 8; i++)
-            {
-                allImages.Add(rs.GetObject("s" + i) as Image);
             }
         }
 
@@ -82,25 +72,9 @@ namespace FormTest
 
         private void uiStyle1()
         {
-            for (int i = 0; i < 4; i++)
-            {
-                controlScreenButton b = new controlScreenButton();
-                Controls.Add(b);
-                seasonButtons.Add(b);
-                b.Parent = this;
-                b.Size = new Size(120, 120);
-                b.Top = (this.ClientSize.Height / 10) * 8;
-                b.controlInt = i;
-                b.highLightImage = new Bitmap(allImages[i+12], b.Size);
-                b.mainImage = new Bitmap(allImages[i+8], b.Size);
-                b.BackgroundImage = b.mainImage;
-                b.Click += new EventHandler(style1SeasonFunc);
-                b.Click += new EventHandler(stopButtonFunc);
-                b.Left = positionListSeasons[i];
-            }
 
             //populate the category buttons
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 controlScreenButton b = new controlScreenButton();
                 Controls.Add(b);
@@ -122,7 +96,7 @@ namespace FormTest
              nextButton.Parent = this;
              nextButton.Size = new Size(120, 120);
              nextButton.Top = (this.ClientSize.Height / 10) * 8;
-             nextButton.Left = positionListSeasons[4];
+             nextButton.Left = (Size.Width / 2) - 60;
              nextButton.Click += new EventHandler(displayScreen1.displayNextImage);
              nextButton.mainImage = rs.GetObject("next") as Image;
              nextButton.highLightImage = nextButton.mainImage;
@@ -130,22 +104,9 @@ namespace FormTest
              nextButton.BackgroundImageLayout = ImageLayout.Stretch;
         }
 
-        private void style1SeasonFunc(object sender, EventArgs e)
-        {
-            seeker.setSeason((sender as controlScreenButton).controlInt);
-
-            if (currentSeason != sender as controlScreenButton)
-	        {
-                currentSeason.BackgroundImage = currentSeason.mainImage;
-                currentSeason.BackColor = Color.FromArgb(100,100,100);
-                currentSeason = (sender as controlScreenButton);
-	        }
-            
-        }
-
         private void style1ButtonFunc(object sender, EventArgs e)
         {
-            seeker.setLocation((sender as controlScreenButton).controlInt);
+            seeker.setCategory((sender as controlScreenButton).controlInt);
 
             if (currentCategory != sender as controlScreenButton)
 	        {

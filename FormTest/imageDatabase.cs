@@ -16,11 +16,8 @@ namespace FormTest
         public List<Shell32.FolderItem2> allItems = new List<Shell32.FolderItem2>();
 
         string root;
-        string[] seasons = new string[] { "Vår", "Sommer", "Høst", "Vinter" };
-        string[] locations = new string[] { "Hus/Kjøkken", "Åker/Eng/Skog", "Verksted", 
-                                            "Fjøs/Dyrestell", "Husstell/Kjøkken" };
-        public string sortSeason = "Vår";
-        public string sortLocation = "Verksted";
+        string[] category = new string[] { "Folk og Interiør", "Handelssteder", "Handelsvare" };
+        public string sortCategory = "Folk og Interiør";
 
         Dictionary<string,HashSet<Shell32.FolderItem2>> dynamicCategories = new Dictionary<string,HashSet<Shell32.FolderItem2>>();
 
@@ -40,7 +37,7 @@ namespace FormTest
             foreach (var item in allItems)
 	        {
                 string c = picFolder.GetDetailsOf(item, 18);
-                foreach (string s in c.Split(new string[] { "; " }, StringSplitOptions.None))
+                foreach (string s in c.Split(new string[] { ";" }, StringSplitOptions.None))
                 {
                     if (!dynamicCategories.ContainsKey(s))
 	                {
@@ -53,8 +50,7 @@ namespace FormTest
 
         public void constructImageList()
         {
-            HashSet<Shell32.FolderItem2> imageList = new HashSet<Shell32.FolderItem2>(dynamicCategories[sortSeason]);
-            imageList.IntersectWith(dynamicCategories[sortLocation]);
+            HashSet<Shell32.FolderItem2> imageList = new HashSet<Shell32.FolderItem2>(dynamicCategories[sortCategory]);
             displayItems = new List<Shell32.FolderItem2>(imageList);
         }
 
@@ -63,14 +59,9 @@ namespace FormTest
             return displayItems;
         }
 
-        public void setSeason(int a)
+        public void setCategory(int a)
         {
-            this.sortSeason = seasons[a];
-        }
-
-        public void setLocation(int a)
-        {
-            this.sortLocation = locations[a];
+            this.sortCategory = category[a];
         }
 
         //debugfunction, writes current image data to console through displayscreem

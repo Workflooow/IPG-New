@@ -36,7 +36,7 @@ namespace FormTest
 
         public void Form2_Load(object sender, EventArgs e)
         {
-            Location = Screen.AllScreens[1].WorkingArea.Location;
+            Location = Screen.AllScreens[0].WorkingArea.Location;
             WindowState = FormWindowState.Maximized;
             pb1.Size = Size;
             
@@ -72,7 +72,7 @@ namespace FormTest
             if(temp.Count>0)
             {
                 fillWindow(temp[0]);
-                Console.WriteLine(seeker.sortSeason + ", " + seeker.sortLocation + ", ");
+                Console.WriteLine(seeker.sortCategory);
                 aTimer.Start();
             }
             else
@@ -80,7 +80,7 @@ namespace FormTest
                 temp = seeker.allItems;
                 fillWindow(temp[0]);
                 aTimer.Start();
-                Console.WriteLine(seeker.sortSeason + ", " + seeker.sortLocation + "," + "but list was empty");
+                Console.WriteLine(seeker.sortCategory + "," + "but list was empty");
             }
         }
 
